@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Project for storing API Tests",
   "scripts": {
-    "API-Tests-Practice": "newman run Automation_Learning.postman_collection.json"
+    "API-Tests-Practice": "newman run Automation_Learning.postman_collection.json reporters-junit --reporter-junitfull-export results.xml"
   },
   "repository": {
     "type": "git",
