@@ -1,0 +1,166 @@
+{
+	"info": {
+		"_postman_id": "acc7ecc9-1911-4282-ad00-898d365004ac",
+		"name": "Automation_Learning",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Sample Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://postman-echo.com/get?test=123",
+					"protocol": "https",
+					"host": [
+						"postman-echo",
+						"com"
+					],
+					"path": [
+						"get"
+					],
+					"query": [
+						{
+							"key": "test",
+							"value": "123"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bitcoin exchange rate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// ensure healthy response code",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"let target = pm.environment.get(\"targetRate\");",
+							"",
+							"try {",
+							"    ",
+							"    // parse the response object",
+							"    let response = pm.response.json();",
+							"    ",
+							"    // extract information from the response",
+							"    let time = response.time.updated;",
+							"    let usdRate = response.bpi.USD.rate;",
+							"    ",
+							"    // if the current rate of Bitcoin is lower than my target",
+							"    if (parseInt(usdRate) < parseInt(target)) {",
+							"        ",
+							"        console.log(\"Yay. The current Bitcoin rate (\" + usdRate + \") is lower than my target threshold (\" + target + \").\");",
+							"        ",
+							"        // set the next request to be called (if run together as collection): send an SMS",
+							"        postman.setNextRequest('SMS via Twilio');",
+							"        ",
+							"        // set environment variables to be used in subsequent request",
+							"        pm.environment.set(\"time\", time);",
+							"        pm.environment.set(\"rate\", usdRate);",
+							"        ",
+							"    } else { ",
+							"        ",
+							"        console.log(\"Boo. The current Bitcoin rate (\" + usdRate + \") is higher than my target threshold (\" + target + \").\");",
+							"        ",
+							"        // terminate the process, so no other requests are made as part of this collection run",
+							"        postman.setNextRequest(null);",
+							"    }",
+							"    ",
+							"}",
+							"catch (error) {",
+							"    throw error;",
+							"}",
+							"",
+							"let localVariable = \"localValue\";",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.coindesk.com/v1/bpi/currentprice.json",
+					"protocol": "https",
+					"host": [
+						"api",
+						"coindesk",
+						"com"
+					],
+					"path": [
+						"v1",
+						"bpi",
+						"currentprice.json"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
