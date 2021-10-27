@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Project for storing API Tests",
   "scripts": {
-    "API-Tests-Practice": "newman run Automation_Learning.postman_collection.json reporters-junitfull --reporter-junitfull-export '/home/tejbor/results/*.xml'"
+    "API-Tests-Practice": "newman run Automation_Learning.postman_collection.json reporters-junitfull -r junitfull --reporter-junitfull-export './result.xml'"
   },
   "repository": {
     "type": "git",
